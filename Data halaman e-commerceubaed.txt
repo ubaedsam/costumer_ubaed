@@ -1,0 +1,29 @@
+Data halaman e-commerceubaed
+
+Dashboard : 
+- Layouts/Horizontal
+- Landing
+
+Folder File Sistem login :
+
+1. Login : Authentication/Sign-in/basic
+2. Register : Authentication/Sign-up/basic
+3. Forgot Password : Authentication/Password-reset/basic
+4. Reset Password : Authentication/Password-create/basic
+
+
+Folder File Transaksi :
+
+1. Transasi berhasil : Authentication/Success Message/basic
+2. Cart : Apps/E-commerce/Shopping Cart
+3. Checkout : Apps/E-commerce/Checkout
+4. Product Details : Apps/E-commerce/Product Details
+5. Product : 
+- Apps/E-commerce/Product
+- Pages/Gallery
+
+Library :
+
+1. Cart
+2. Livewire
+3. Template Velzon
