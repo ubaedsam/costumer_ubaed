@@ -1,4 +1,5 @@
 <div>
+    <x-loading></x-loading>
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
             <h4 class="mb-sm-0">Costumer</h4>
@@ -163,7 +164,14 @@
                             @endforeach
                             @else
                                 <tr>
-                                <td>Data Tidak Ditemukan</td>
+                                    <td colspan="5">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="/found.png" style="width: 300px;">
+                                        </div>
+                                        <div class="text-center">
+                                            <h1>Data tidak ditemukan</h1>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endif
                         </tbody>
