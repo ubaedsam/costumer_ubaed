@@ -4,12 +4,21 @@ namespace App\Http\Livewire;
 
 use App\Models\Costumer as ModelsCostumer;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Costumer extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
+    
     public $delete_id;
 
     protected $listeners = ['deleteConfirmed'=>'deleteCostumer'];
+
+    public $perPage = 5;
+    public $search;
+    public $filter = null;
 
     public function hapusCostumer($id)
     {
@@ -35,7 +44,11 @@ class Costumer extends Component
 
         return view('livewire.costumer',[
             'costumers' => ModelsCostumer::where('user_id', auth()->user()->id)
-            ->get()
+            ->when($this->filter, function($query){
+                $query->where('status', $this->filter);
+            })
+            ->search(trim($this->search))
+            ->paginate($this->perPage)
         ], compact('costumerAllCount', 'newCostumerCount', 'loyalCostumerCount'));
     }
 }

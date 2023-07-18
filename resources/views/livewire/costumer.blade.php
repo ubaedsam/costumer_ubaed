@@ -81,6 +81,43 @@
                 </div><!-- end card -->
             </div><!-- end col -->
         </div>
+        <div class="row g-3 mb-3 d-flex justify-content-center">
+            <div class="col-sm-auto">
+                <div class="input-group">
+                    <input wire:model="search" type="search" class="form-control border-0 dash-filter-picker shadow" placeholder="Search...">
+                    <div class="input-group-text bg-primary border-primary text-white">
+                        <i class="ri-search-2-line"></i>
+                    </div>
+                </div>
+            </div>
+            <!--end col-->
+            <div class="col-auto">
+                <select class="form-select" wire:model="perPage">
+                    <option value="5">5 Data</option>
+                    <option value="15">15 Data</option>
+                    <option value="25">25 Data</option>
+                    <option value="50">50 Data</option>
+                    <option value="100">100 Data</option>
+                    <option value="1000">1000 Data</option>
+                </select>
+            </div>
+            <!--end col-->
+            <div class="col-auto">
+                <select wire:model="filter" class="form-select" aria-label="Default select example">
+                    <option value="">All Status</option>
+                    <option value="NEW COSTUMER">New Costumer</option>
+                    <option value="LOYAL COSTUMER">Loyal Costumer</option>
+                </select>
+            </div>
+            <!--end col-->
+            {{--  <div class="col-auto">
+                <select wire:model="by" class="form-select" aria-label="Default select example">
+                    <option value="">Random Name</option>
+                    <option value="asc">Ascending by Name</option>
+                    <option value="desc">Descending by Name</option>
+                </select>
+            </div>  --}}
+        </div>
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Data Costumer</h4>
@@ -92,7 +129,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                    <table class="table table-nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -103,6 +140,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (count($costumers) > 0)
                             @foreach ($costumers as $costumer)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
@@ -123,8 +161,16 @@
                                 </td>
                             </tr>
                             @endforeach
+                            @else
+                                <tr>
+                                <td>Data Tidak Ditemukan</td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-center">
+                    {{ $costumers->links() }}
                 </div>
             </div>
         </div>
