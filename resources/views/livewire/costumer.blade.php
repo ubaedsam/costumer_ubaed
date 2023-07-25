@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="col-12">
-        <div class="row">
+        {{--  <div class="row">
             <div class="col-xl-3 col-md-4">
                 <!-- card -->
                 <div class="card card-animate">
@@ -81,9 +81,9 @@
                     </div><!-- end card body -->
                 </div><!-- end card -->
             </div><!-- end col -->
-        </div>
-        <div class="row g-3 mb-3 d-flex justify-content-center">
-            <div class="col-sm-auto">
+        </div>  --}}
+        <div class="row mb-3 d-flex justify-content-between">
+            <div class="col-sm-auto mb-3">
                 <div class="input-group">
                     <input wire:model="search" type="search" class="form-control border-0 dash-filter-picker shadow" placeholder="Search...">
                     <div class="input-group-text bg-primary border-primary text-white">
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <!--end col-->
-            <div class="col-auto">
+            <div class="col-auto mb-3">
                 <select class="form-select" wire:model="perPage">
                     <option value="5">5 Data</option>
                     <option value="15">15 Data</option>
@@ -103,21 +103,33 @@
                 </select>
             </div>
             <!--end col-->
-            <div class="col-auto">
-                <select wire:model="filter" class="form-select" aria-label="Default select example">
-                    <option value="">All Status</option>
-                    <option value="NEW COSTUMER">New Costumer</option>
-                    <option value="LOYAL COSTUMER">Loyal Costumer</option>
-                </select>
+            @if ($selectedRows)
+            <div class="btn-group-vertical mb-2" role="group" aria-label="Vertical button group">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupVerticalDrop1" type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Bulk Actions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1">
+                        <a wire:click.prevent="deleteSelectedRows" class="dropdown-item" href="#">Delete Selected</a>
+                        <a wire:click.prevent="markAllAsNewCostumer" class="dropdown-item" href="#">Mark as New Costumer</a>
+                        <a wire:click.prevent="markAllAsLoyalCostumer" class="dropdown-item" href="#">Mark as Loyal Costumer</a>
+                    </div>
+                </div>
             </div>
-            <!--end col-->
-            {{--  <div class="col-auto">
-                <select wire:model="by" class="form-select" aria-label="Default select example">
-                    <option value="">Random Name</option>
-                    <option value="asc">Ascending by Name</option>
-                    <option value="desc">Descending by Name</option>
-                </select>
-            </div>  --}}
+
+            <span class="mb-2">Selected {{ count($selectedRows) }} {{ Str::plural('costumer', count($selectedRows)) }}</span>
+            @endif
+            <!-- Radio Buttons -->
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" wire:click="filterCostumersByStatus" class="btn-check" name="btnradio" id="btnradio1" checked="">
+                <label class="btn btn-outline-secondary shadow-none" for="btnradio1">All {{ $costumerAllCount }}</label>
+
+                <input type="radio" wire:click="filterCostumersByStatus('NEW COSTUMER')" class="btn-check" name="btnradio" id="btnradio2">
+                <label class="btn btn-outline-secondary shadow-none" for="btnradio2">New Costumer {{ $newCostumerCount }}</label>
+
+                <input type="radio" wire:click="filterCostumersByStatus('LOYAL COSTUMER')" class="btn-check" name="btnradio" id="btnradio3">
+                <label class="btn btn-outline-secondary shadow-none" for="btnradio3">Loyal Costumer {{ $loyalCostumerCount }}</label>
+            </div>
         </div>
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -133,6 +145,11 @@
                     <table class="table table-nowrap" style="width:100%">
                         <thead>
                             <tr>
+                                <th scope="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" wire:model="selectPageRows" type="checkbox" value="" name="todo2" id="todoCheck2">
+                                    </div>
+                                </th>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Email</th>
@@ -144,6 +161,11 @@
                             @if (count($costumers) > 0)
                             @foreach ($costumers as $costumer)
                             <tr>
+                                <th scope="row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" wire:model="selectedRows" type="checkbox" value="{{ $costumer->id }}" name="todo2" id="{{ $costumer->id }}">
+                                    </div>
+                                </th>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $costumer->name }}</td>
                                 <td>{{ $costumer->email }}</td>
@@ -178,7 +200,7 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center">
-                    {{ $costumers->links() }}
+                    {!! $costumers->links() !!}
                 </div>
             </div>
         </div>
@@ -207,6 +229,10 @@
             'Data costumer berhasil dihapus.',
             'success'
             )
+        });
+
+        window.addEventListener('updated', event =>{
+            Swal.fire(event.detail.message, 'Success!');
         });
     </script>
     @endpush

@@ -15,7 +15,8 @@ class CostumerFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
+            // 'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => 4,
             'name' => $this->faker->name(50),
             'email' => $this->faker->unique()->freeEmail(),
             'status' => $this->faker->randomElement(['NEW COSTUMER', 'LOYAL COSTUMER']),

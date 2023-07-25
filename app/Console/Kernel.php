@@ -23,8 +23,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('costumer:newcostumer')->hourly();
-        $schedule->command('costumers:sendmailcostumerloyal')->hourly();
+        $schedule->command('costumer:newcostumer')->everyMinute();
+        $schedule->command('costumers:sendmailcostumerloyal')->everyMinute();
     }
 
     /**
